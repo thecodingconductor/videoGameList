@@ -10,7 +10,8 @@ const initialState = {
 export const getGames = createAsyncThunk('games/getGames', async() => {
     const response = await axios.get('/api/games');
     // console.log(response.data);
-    return response.data;
+    const sorted = response.data.sort((a,b) => a.year > b.year ? 1 : -1)
+    return sorted;
 })
 
 

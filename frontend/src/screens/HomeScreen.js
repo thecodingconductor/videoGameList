@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import {gameStateInit, getGames} from '../slices/gameSlice';
+import Game from '../components/Game';
 
 const HomeScreen = () => {
 
@@ -9,28 +10,41 @@ const HomeScreen = () => {
     const gameState = useSelector(state => state.games);
     
 
+    // const obj = [gameState.games];
+    // const orderedGames = obj.sort((a,b) => a.year - b.year)
     
-    
+   
+        
+                            
 
     useEffect(() => {
-        dispatch(getGames())
-        console.log(gameState);
         
-    }, [dispatch, gameState])
+        dispatch(getGames())
+        
+        // console.log(orderedGames);
+        
+    }, [dispatch])
 
 
     return (
-        <div>
-            {gameState.games.map(game => (
-                <div key={game._id}>
-                    <p>{game.rank}</p>
-                    <p>{game.title}</p>
-                    <p>{game.composers}</p>
-                    <p>{game.system}</p>
-                    <p>{game.year}</p>
-                </div>
-            ))}
-        </div>
+       
+        <Container>
+
+            
+            {gameState.status === "loading" ? <div>Loading</div> : 
+
+                <Row>
+                    {gameState.games.map((game) => (
+                                <Col key={game.title} sm={12} md={6} lg={4} xl={3}>
+                                    <Game game={game}/>
+                                </Col>
+                            ))}
+                </Row>
+               
+            }
+
+            
+        </Container>
     )
 }
 
